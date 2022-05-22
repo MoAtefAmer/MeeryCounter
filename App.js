@@ -1,85 +1,147 @@
-import React from "react";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import moment from 'moment';
+// 1. import `NativeBaseProvider` component
 import {
-  Text,
-  Link,
-  HStack,
-  Center,
-  Heading,
-  Switch,
-  useColorMode,
   NativeBaseProvider,
-  extendTheme,
-  VStack,
+  Text,
   Box,
-} from "native-base";
-import NativeBaseIcon from "./components/NativeBaseIcon";
-import { Platform } from "react-native";
+  AspectRatio,
+  Image,
+  Center,
+  Stack,
+  Heading,
+  HStack,
+  Circle,
+  VStack,
+  Divider,
+} from 'native-base';
 
-// Define the config
-const config = {
-  useSystemColorMode: false,
-  initialColorMode: "dark",
-};
-
-// extend the theme
-export const theme = extendTheme({ config });
 
 export default function App() {
+  // 2. Use at the root of your app
+  const targetTime = moment('2023-03-01');
+
+  const [currentTime, setCurrentTime] = useState(moment());
+  const timeBetween = moment.duration(targetTime.diff(currentTime));
+  const numberFontSize = '5xl';
+  const textFontSize = 'sm';
+  const textColor = 'white';
+  const dividerProps = {
+    bg: 'white',
+    thickness: '2',
+    mx: '2',
+    orientation: 'vertical',
+  };
+
+  // const soldier = require('./assets/Soldier.jpg')
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(moment());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
   return (
     <NativeBaseProvider>
-      <Center
-        _dark={{ bg: "blueGray.900" }}
-        _light={{ bg: "blueGray.50" }}
-        px={4}
-        flex={1}
-      >
-        <VStack space={5} alignItems="center">
-          <NativeBaseIcon />
-          <Heading size="lg">Welcome to NativeBase</Heading>
-          <HStack space={2} alignItems="center">
-            <Text>Edit</Text>
-            <Box
-              _web={{
-                _text: {
-                  fontFamily: "monospace",
-                  fontSize: "sm",
-                },
-              }}
-              px={2}
-              py={1}
-              _dark={{ bg: "blueGray.800" }}
-              _light={{ bg: "blueGray.200" }}
-            >
-              App.js
+      <Box marginBottom="10%" flex={1} bg='#fff' alignItems='center' justifyContent='center'>
+        <Image source={require('./assets/Soldier.jpg')} alt='alt' size="xl"/>
+        <Heading  style={{ marginBottom: '5%' }} size='2xl'>
+          <Text fontSize='35'>Days Until Freedom...</Text>
+        </Heading>
+  
+        <Box
+          flex={1}
+          alignItems='center'
+          justifyContent='center'
+          bg="#666627"
+          py='4'
+          px='3'
+          borderRadius='5'
+          rounded='md'
+          width='95%'
+          maxWidth='100%'
+          maxHeight='20%'
+        >
+          <HStack space={1} justifyContent='space-between'>
+            <Box>
+              <VStack alignItems='center'>
+                <Text color={textColor} fontSize={numberFontSize}>
+                  {timeBetween.months()}
+                </Text>
+                <Text color={textColor} fontSize={textFontSize}>
+                  Months
+                </Text>
+              </VStack>
             </Box>
-            <Text>and save to reload.</Text>
+            <Divider
+              bg={dividerProps.bg}
+              thickness={dividerProps.thickness}
+              mx={dividerProps.mx}
+              orientation={dividerProps.orientation}
+            />
+            <Box>
+              <VStack alignItems='center'>
+                <Text color={textColor} fontSize={numberFontSize}>
+                  {timeBetween.days()}
+                </Text>
+                <Text color={textColor} fontSize={textFontSize}>
+                  Days
+                </Text>
+              </VStack>
+            </Box>
+            <Divider
+              bg={dividerProps.bg}
+              thickness={dividerProps.thickness}
+              mx={dividerProps.mx}
+              orientation={dividerProps.orientation}
+            />
+            <Box>
+              <VStack alignItems='center'>
+                <Text color={textColor} fontSize={numberFontSize}>
+                  {timeBetween.hours()}
+                </Text>
+                <Text color={textColor} fontSize={textFontSize}>
+                  Hours
+                </Text>
+              </VStack>
+            </Box>
+            <Divider
+              bg={dividerProps.bg}
+              thickness={dividerProps.thickness}
+              mx={dividerProps.mx}
+              orientation={dividerProps.orientation}
+            />
+            <Box>
+              <VStack alignItems='center'>
+                <Text color={textColor} fontSize={numberFontSize}>
+                  {timeBetween.minutes()}
+                </Text>
+                <Text color={textColor} fontSize={textFontSize}>
+                  Minutes
+                </Text>
+              </VStack>
+            </Box>
+            <Divider
+              bg={dividerProps.bg}
+              thickness={dividerProps.thickness}
+              mx={dividerProps.mx}
+              orientation={dividerProps.orientation}
+            />
+            <Box>
+              <VStack alignItems='center'>
+                <Text color={textColor} fontSize={numberFontSize}>
+                  {timeBetween.seconds()}
+                </Text>
+                <Text color={textColor} fontSize={textFontSize}>
+                  Seconds
+                </Text>
+              </VStack>
+            </Box>
           </HStack>
-          <Link href="https://docs.nativebase.io" isExternal>
-            <Text color="primary.500" underline fontSize={"xl"}>
-              Learn NativeBase
-            </Text>
-          </Link>
-          <ToggleDarkMode />
-        </VStack>
-      </Center>
-    </NativeBaseProvider>
-  );
-}
+        </Box>
 
-// Color Switch Component
-function ToggleDarkMode() {
-  const { colorMode, toggleColorMode } = useColorMode();
-  return (
-    <HStack space={2} alignItems="center">
-      <Text>Dark</Text>
-      <Switch
-        isChecked={colorMode === "light"}
-        onToggle={toggleColorMode}
-        aria-label={
-          colorMode === "light" ? "switch to dark mode" : "switch to light mode"
-        }
-      />
-      <Text>Light</Text>
-    </HStack>
+      </Box>
+    </NativeBaseProvider>
   );
 }
