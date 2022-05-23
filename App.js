@@ -6,13 +6,9 @@ import {
   NativeBaseProvider,
   Text,
   Box,
-  AspectRatio,
   Image,
-  Center,
-  Stack,
   Heading,
   HStack,
-  Circle,
   VStack,
   Divider,
 } from 'native-base';
